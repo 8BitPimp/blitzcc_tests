@@ -1,0 +1,164 @@
+
+	.align	16
+__MAIN
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,4
+	mov	eax,__DATA
+	mov	[esp],eax
+	call	__bbRestore
+	sub	esp,4
+	mov	eax,__LIBS
+	mov	[esp],eax
+	call	__bbLoadLibs
+	call	_2_begin
+	jmp	_2_leave
+_2_begin
+	ret
+_2_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 0
+	.align	16
+_fccshadowtext
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,20
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-4],1
+	call	_fcolorred
+	mov	[ebp-8],eax
+	call	_fcolorgreen
+	mov	[ebp-12],eax
+	call	_fcolorblue
+	mov	[ebp-16],eax
+	sub	esp,12
+	mov	[esp+4],0
+	mov	[esp+8],0
+	mov	[esp],0
+	call	_fcolor
+	sub	esp,20
+	mov	ebx,[ebp+32]
+	mov	[esp+12],ebx
+	mov	[esp+16],0
+	sub	esp,4
+	lea	eax,[ebp+28]
+	mov	[esp],eax
+	call	__bbStrLoad
+	mov	[esp+8],eax
+	mov	ebx,[ebp+24]
+	add	ebx,[ebp-4]
+	mov	[esp+4],ebx
+	mov	eax,[ebp+20]
+	add	eax,[ebp-4]
+	mov	[esp],eax
+	call	_ftext
+	sub	esp,12
+	mov	ebx,[ebp-12]
+	mov	[esp+4],ebx
+	mov	esi,[ebp-16]
+	mov	[esp+8],esi
+	mov	eax,[ebp-8]
+	mov	[esp],eax
+	call	_fcolor
+	sub	esp,20
+	mov	ebx,[ebp+32]
+	mov	[esp+12],ebx
+	mov	[esp+16],0
+	sub	esp,4
+	lea	eax,[ebp+28]
+	mov	[esp],eax
+	call	__bbStrLoad
+	mov	[esp+8],eax
+	mov	ebx,[ebp+24]
+	mov	[esp+4],ebx
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	call	_ftext
+	mov	eax,0
+	jmp	_3_leave
+_3_leave
+	mov	[ebp-20],eax
+	sub	esp,4
+	mov	ebx,[ebp+28]
+	mov	[esp],ebx
+	mov	eax,ebx
+	call	__bbStrRelease
+	mov	ebx,eax
+	mov	eax,[ebp-20]
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 16
+	.align	16
+_fccshadowrect
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,12
+	mov	[esp+4],0
+	mov	[esp+8],0
+	mov	[esp],0
+	call	_fcolor
+	sub	esp,20
+	mov	ebx,[ebp+32]
+	mov	[esp+12],ebx
+	mov	[esp+16],1
+	mov	esi,[ebp+28]
+	mov	[esp+8],esi
+	mov	ebx,[ebp+24]
+	add	ebx,4
+	mov	[esp+4],ebx
+	mov	eax,[ebp+20]
+	add	eax,4
+	mov	[esp],eax
+	call	_frect
+	sub	esp,12
+	mov	[esp+4],150
+	mov	[esp+8],150
+	mov	[esp],150
+	call	_fcolor
+	sub	esp,20
+	mov	ebx,[ebp+32]
+	mov	[esp+12],ebx
+	mov	[esp+16],1
+	mov	esi,[ebp+28]
+	mov	[esp+8],esi
+	mov	ebx,[ebp+24]
+	mov	[esp+4],ebx
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	call	_frect
+	mov	eax,0
+	jmp	_4_leave
+_4_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 16
+	.align	4
+__LIBS
+	.db	"",0
+	.align	4
+__DATA
+	.dd	0
+

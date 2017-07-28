@@ -1,0 +1,269 @@
+
+	.align	16
+__MAIN
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,16
+	sub	esp,4
+	mov	eax,__DATA
+	mov	[esp],eax
+	call	__bbRestore
+	sub	esp,4
+	mov	eax,__LIBS
+	mov	[esp],eax
+	call	__bbLoadLibs
+	call	_2_begin
+	jmp	_2_leave
+_2_begin
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	sub	esp,16
+	mov	[esp+8],32
+	mov	[esp+12],2
+	mov	[esp+4],1024
+	mov	[esp],1280
+	call	_fgraphics
+	sub	esp,4
+	call	_fbackbuffer
+	mov	[esp],eax
+	call	_fsetbuffer
+	sub	esp,8
+	mov	eax,_6
+	mov	[esp],eax
+	call	__bbStrConst
+	mov	[esp],eax
+	call	_fprint
+	sub	esp,8
+	mov	[esp],0
+	mov	[esp+4],0
+	call	_flocate
+	call	_fwaitmouse
+	call	_fmousex
+	mov	[ebp-4],eax
+	call	_fmousey
+	mov	[ebp-8],eax
+	call	_fcls
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	ebx,[ebp-8]
+	mov	[esp+4],ebx
+	call	_fplot
+	sub	esp,8
+	mov	[esp],0
+	mov	[esp+4],0
+	call	_flocate
+	sub	esp,8
+	mov	eax,_7
+	mov	[esp],eax
+	call	__bbStrConst
+	mov	[esp],eax
+	call	_fprint
+	call	_fwaitmouse
+	call	_fmousex
+	mov	[ebp-12],eax
+	call	_fmousey
+	mov	[ebp-16],eax
+	call	_fcls
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	ebx,[ebp-8]
+	mov	[esp+4],ebx
+	call	_fplot
+	sub	esp,8
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	mov	ebx,[ebp-16]
+	mov	[esp+4],ebx
+	call	_fplot
+	sub	esp,8
+	mov	[esp],0
+	mov	[esp+4],0
+	call	_flocate
+	sub	esp,8
+	mov	eax,_8
+	mov	[esp],eax
+	call	__bbStrConst
+	mov	[esp],eax
+	call	_fprint
+	jmp	_10
+_9
+	sub	esp,4
+	mov	[esp],54
+	call	_fkeyhit
+	and	eax,eax
+	jz	_11
+	call	_fflushkeys
+	call	_fcls
+	sub	esp,20
+	mov	ebx,[ebp-16]
+	mov	[esp+12],ebx
+	mov	[esp+16],0
+	mov	esi,[ebp-12]
+	mov	[esp+8],esi
+	mov	ebx,[ebp-8]
+	mov	[esp+4],ebx
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	call	_frectfrom2points
+	sub	esp,8
+	mov	[esp],0
+	mov	[esp+4],0
+	call	_flocate
+	sub	esp,8
+	mov	eax,_12
+	mov	[esp],eax
+	call	__bbStrConst
+	mov	[esp],eax
+	call	_fprint
+	call	_fwaitkey
+	call	_fend
+_11
+_10
+	sub	esp,4
+	mov	[esp],42
+	call	_fkeyhit
+	cmp	eax,0
+	jz	_9
+_3
+	call	_fflushkeys
+	call	_fcls
+	sub	esp,20
+	mov	ebx,[ebp-16]
+	mov	[esp+12],ebx
+	mov	[esp+16],1
+	mov	esi,[ebp-12]
+	mov	[esp+8],esi
+	mov	ebx,[ebp-8]
+	mov	[esp+4],ebx
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	call	_frectfrom2points
+	sub	esp,8
+	mov	[esp],0
+	mov	[esp+4],0
+	call	_flocate
+	sub	esp,8
+	mov	eax,_13
+	mov	[esp],eax
+	call	__bbStrConst
+	mov	[esp],eax
+	call	_fprint
+	call	_fwaitkey
+	call	_fend
+	ret
+_2_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 0
+	.align	16
+_fmin
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	mov	ebx,[ebp+24]
+	cmp	[ebp+20],ebx
+	jle	_14
+	mov	eax,[ebp+20]
+	jmp	_4_leave
+	jmp	_15
+_14
+	mov	eax,[ebp+24]
+	jmp	_4_leave
+_15
+	mov	eax,0
+	jmp	_4_leave
+_4_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 8
+	.align	16
+_frectfrom2points
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,16
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	sub	esp,4
+	mov	eax,[ebp+20]
+	sub	eax,[ebp+28]
+	mov	[esp],eax
+	call	__bbAbs
+	mov	[ebp-4],eax
+	sub	esp,4
+	mov	eax,[ebp+24]
+	sub	eax,[ebp+32]
+	mov	[esp],eax
+	call	__bbAbs
+	mov	[ebp-8],eax
+	sub	esp,8
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	mov	ebx,[ebp+28]
+	mov	[esp+4],ebx
+	call	_fmin
+	mov	[ebp-12],eax
+	sub	esp,8
+	mov	eax,[ebp+24]
+	mov	[esp],eax
+	mov	ebx,[ebp+32]
+	mov	[esp+4],ebx
+	call	_fmin
+	mov	[ebp-16],eax
+	sub	esp,20
+	mov	ebx,[ebp-8]
+	mov	[esp+12],ebx
+	mov	esi,[ebp+36]
+	mov	[esp+16],esi
+	mov	esi,[ebp-4]
+	mov	[esp+8],esi
+	mov	ebx,[ebp-16]
+	mov	[esp+4],ebx
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	call	_frect
+	sub	esp,4
+	mov	[esp],1
+	call	_fflip
+	mov	eax,0
+	jmp	_5_leave
+_5_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 20
+_6	.db	"Click anywhere on the screen.",0
+_7	.db	"Click somewhere else.",0
+_8	.db	"Now press left shift to make a solid rectangle or right shift to make a hollow rectangle.",0
+_12	.db	"Press any key to quit.",0
+_13	.db	"Press any key to quit.",0
+	.align	4
+__LIBS
+	.db	"",0
+	.align	4
+__DATA
+	.dd	0
+

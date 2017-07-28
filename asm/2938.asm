@@ -1,0 +1,255 @@
+
+	.align	16
+__MAIN
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,16
+	sub	esp,4
+	mov	eax,__DATA
+	mov	[esp],eax
+	call	__bbRestore
+	sub	esp,4
+	mov	eax,__LIBS
+	mov	[esp],eax
+	call	__bbLoadLibs
+	call	_2_begin
+	jmp	_2_leave
+_2_begin
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-4],800
+	mov	[ebp-8],600
+	sub	esp,16
+	mov	[esp+8],16
+	mov	[esp+12],2
+	mov	esi,[ebp-8]
+	mov	[esp+4],esi
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	call	_fgraphics
+	sub	esp,4
+	mov	[esp],0
+	call	_flockbuffer
+	mov	[ebp-12],0
+	jmp	_7
+_8
+	mov	[ebp-16],0
+	jmp	_9
+_10
+	sub	esp,28
+	mov	eax,1077936128
+	push	eax
+	fld	[esp]
+	pop	eax
+	mov	ebx,[ebp-12]
+	push	ebx
+	fild	[esp]
+	pop	ebx
+	fmulp	st(1)
+	mov	ebx,[ebp-4]
+	push	ebx
+	fild	[esp]
+	pop	ebx
+	fdivp	st(1)
+	mov	ebx,1073741824
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fsubp	st(1)
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[esp],eax
+	mov	ebx,1073741824
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-16]
+	push	esi
+	fild	[esp]
+	pop	esi
+	fmulp	st(1)
+	mov	esi,[ebp-8]
+	push	esi
+	fild	[esp]
+	pop	esi
+	fdivp	st(1)
+	mov	esi,1065353216
+	push	esi
+	fld	[esp]
+	pop	esi
+	fsubp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[esp+4],ebx
+	mov	[esp+8],63
+	call	_fm
+	mov	[esp+8],eax
+	mov	[esp+12],0
+	mov	ebx,[ebp-16]
+	mov	[esp+4],ebx
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	call	_fwritepixel
+	add	[ebp-16],1
+_9
+	mov	ebx,[ebp-8]
+	sub	ebx,1
+	cmp	[ebp-16],ebx
+	jle	_10
+_4
+	add	[ebp-12],1
+_7
+	mov	ebx,[ebp-4]
+	sub	ebx,1
+	cmp	[ebp-12],ebx
+	jle	_8
+_3
+	sub	esp,4
+	mov	[esp],0
+	call	_funlockbuffer
+	sub	esp,4
+	mov	[esp],1
+	call	_fflip
+	call	_fmousewait
+	ret
+_2_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 0
+	.align	16
+_fm
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,16
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-4],0
+	jmp	_11
+_12
+	mov	eax,[ebp-8]
+	push	eax
+	fld	[esp]
+	pop	eax
+	mov	ebx,[ebp-8]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fmulp	st(1)
+	mov	ebx,[ebp-12]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-12]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	faddp	st(1)
+	mov	ebx,1082130432
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fucompp
+	fnstsw	ax
+	sahf
+	setb	al
+	movzx	eax,al
+	and	eax,eax
+	jz	_13
+	mov	eax,[ebp-4]
+	imul	eax,263168
+	add	eax,128
+	jmp	_5_leave
+_13
+	mov	ebx,[ebp-8]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-8]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	mov	esi,[ebp-12]
+	push	esi
+	fld	[esp]
+	pop	esi
+	mov	edi,[ebp-12]
+	push	edi
+	fld	[esp]
+	pop	edi
+	fmulp	st(1)
+	fsubp	st(1)
+	mov	esi,[ebp+20]
+	push	esi
+	fld	[esp]
+	pop	esi
+	faddp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-16],ebx
+	mov	ebx,1073741824
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-8]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	mov	esi,[ebp-12]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	mov	esi,[ebp+24]
+	push	esi
+	fld	[esp]
+	pop	esi
+	faddp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-12],ebx
+	mov	ebx,[ebp-16]
+	mov	[ebp-8],ebx
+	add	[ebp-4],1
+_11
+	mov	ebx,[ebp+28]
+	cmp	[ebp-4],ebx
+	jle	_12
+_6
+	mov	eax,0
+	jmp	_5_leave
+_5_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 12
+	.align	4
+__LIBS
+	.db	"",0
+	.align	4
+__DATA
+	.dd	0
+

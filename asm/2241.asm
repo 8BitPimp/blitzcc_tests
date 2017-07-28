@@ -1,0 +1,481 @@
+
+	.align	16
+__MAIN
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,4
+	mov	eax,__DATA
+	mov	[esp],eax
+	call	__bbRestore
+	sub	esp,4
+	mov	eax,__LIBS
+	mov	[esp],eax
+	call	__bbLoadLibs
+	call	_2_begin
+	jmp	_2_leave
+_2_begin
+	ret
+_2_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 0
+	.align	16
+_ffloattodouble
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,28
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-20],ebx
+	mov	[ebp-24],ebx
+	mov	[ebp-28],ebx
+	sub	esp,4
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	call	_ffloattoint
+	mov	[ebp-4],eax
+	mov	ebx,[ebp-4]
+	mov	esi,-2147483648
+	and	ebx,esi
+	mov	[ebp-8],ebx
+	mov	ebx,[ebp-4]
+	mov	esi,2139095040
+	and	ebx,esi
+	mov	[ebp-12],ebx
+	mov	ebx,[ebp-4]
+	mov	esi,8388607
+	and	ebx,esi
+	mov	[ebp-16],ebx
+	mov	ebx,[ebp-12]
+	shr	ebx,byte 23
+	sub	ebx,127
+	add	ebx,1023
+	shl	ebx,byte 20
+	mov	[ebp-20],ebx
+	mov	ebx,[ebp-16]
+	mov	esi,7
+	and	ebx,esi
+	shl	ebx,byte 29
+	mov	[ebp-24],ebx
+	mov	ebx,[ebp-8]
+	mov	esi,[ebp-20]
+	or	ebx,esi
+	mov	esi,[ebp-16]
+	shr	esi,byte 3
+	or	ebx,esi
+	mov	[ebp-28],ebx
+	cmp	[ebp+24],0
+	jnz	_7
+	mov	eax,[ebp-24]
+	jmp	_3_leave
+_7
+	mov	eax,[ebp-28]
+	jmp	_3_leave
+	mov	eax,0
+	jmp	_3_leave
+_3_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 8
+	.align	16
+_fdoubletofloat
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,20
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-20],ebx
+	sub	esp,4
+	mov	eax,[ebp+24]
+	shr	eax,byte 31
+	mov	[esp],eax
+	call	__bbAbs
+	mov	[ebp-4],eax
+	mov	ebx,[ebp-4]
+	shl	ebx,byte 31
+	mov	[ebp-8],ebx
+	sub	esp,4
+	mov	eax,[ebp+24]
+	shr	eax,byte 20
+	mov	ebx,[ebp-4]
+	shl	ebx,byte 11
+	sub	eax,ebx
+	mov	[esp],eax
+	call	__bbAbs
+	mov	[ebp-12],eax
+	mov	ebx,[ebp-12]
+	add	ebx,127
+	sub	ebx,1023
+	shl	ebx,byte 23
+	mov	[ebp-16],ebx
+	mov	ebx,[ebp+24]
+	mov	esi,1048575
+	and	ebx,esi
+	shl	ebx,byte 3
+	mov	esi,[ebp+20]
+	shr	esi,byte 29
+	add	ebx,esi
+	mov	[ebp-20],ebx
+	sub	esp,4
+	mov	eax,[ebp-8]
+	mov	ebx,[ebp-16]
+	or	eax,ebx
+	mov	ebx,[ebp-20]
+	or	eax,ebx
+	mov	[esp],eax
+	call	_finttofloat
+	jmp	_4_leave
+	mov	ebx,0
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	jmp	_4_leave
+_4_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 8
+	.align	16
+_ffloattoint
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,44
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-20],ebx
+	mov	[ebp-24],ebx
+	mov	[ebp-28],ebx
+	mov	[ebp-32],ebx
+	mov	[ebp-36],ebx
+	mov	[ebp-40],ebx
+	mov	[ebp-44],ebx
+	mov	eax,[ebp+20]
+	push	eax
+	fld	[esp]
+	pop	eax
+	mov	ebx,0
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fucompp
+	fnstsw	ax
+	sahf
+	setb	al
+	movzx	eax,al
+	and	eax,eax
+	jz	_8
+	mov	[ebp-4],0
+	jmp	_9
+_8
+	mov	[ebp-4],1
+_9
+	sub	esp,4
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	call	__bbFAbs
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[ebp+20],eax
+	sub	esp,8
+	mov	eax,[ebp+20]
+	mov	[esp],eax
+	call	_flog
+	mov	ebx,1060205080
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fdivp	st(1)
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[esp],eax
+	call	_ffloor
+	push	eax
+	fistp	[esp]
+	pop	eax
+	add	eax,127
+	mov	[ebp-8],eax
+	sub	esp,8
+	mov	[esp],1073741824
+	mov	ebx,[ebp-8]
+	sub	ebx,127
+	push	ebx
+	fild	[esp]
+	pop	ebx
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[esp+4],ebx
+	call	__bbFPow
+	mov	ebx,[ebp+20]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	fdivrp	st(1)
+	mov	esi,1065353216
+	push	esi
+	fld	[esp]
+	pop	esi
+	fsubp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-12],ebx
+	cmp	[ebp-8],0
+	jge	_10
+	mov	[ebp-8],0
+	mov	[ebp-12],0
+_10
+	cmp	[ebp-8],255
+	jle	_11
+	mov	[ebp-8],255
+_11
+	mov	ebx,[ebp-12]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,1124073472
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-12],ebx
+	sub	esp,4
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	call	_ffloor
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[ebp-16],eax
+	mov	ebx,[ebp-12]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-16]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fsubp	st(1)
+	mov	esi,1132462080
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-12],ebx
+	sub	esp,4
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	call	_ffloor
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[ebp-20],eax
+	mov	ebx,[ebp-12]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	mov	esi,[ebp-20]
+	push	esi
+	fld	[esp]
+	pop	esi
+	fsubp	st(1)
+	mov	esi,1132462080
+	push	esi
+	fld	[esp]
+	pop	esi
+	fmulp	st(1)
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[ebp-12],ebx
+	sub	esp,4
+	mov	eax,[ebp-12]
+	mov	[esp],eax
+	call	_ffloor
+	push	eax
+	fstp	[esp]
+	pop	eax
+	mov	[ebp-24],eax
+	mov	ebx,[ebp-16]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	push	ebx
+	fistp	[esp]
+	pop	ebx
+	mov	[ebp-36],ebx
+	mov	ebx,[ebp-20]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	push	ebx
+	fistp	[esp]
+	pop	ebx
+	mov	[ebp-40],ebx
+	mov	ebx,[ebp-24]
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	push	ebx
+	fistp	[esp]
+	pop	ebx
+	mov	[ebp-44],ebx
+	mov	ebx,[ebp-4]
+	shl	ebx,byte 7
+	mov	esi,[ebp-8]
+	shr	esi,byte 1
+	or	ebx,esi
+	mov	[ebp-28],ebx
+	mov	ebx,[ebp-8]
+	mov	esi,1
+	and	ebx,esi
+	shl	ebx,byte 7
+	mov	esi,[ebp-36]
+	or	ebx,esi
+	mov	[ebp-32],ebx
+	mov	eax,[ebp-28]
+	shl	eax,byte 24
+	mov	ebx,[ebp-32]
+	shl	ebx,byte 16
+	or	eax,ebx
+	mov	ebx,[ebp-40]
+	shl	ebx,byte 8
+	or	eax,ebx
+	mov	ebx,[ebp-44]
+	or	eax,ebx
+	jmp	_5_leave
+	mov	eax,0
+	jmp	_5_leave
+_5_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 4
+	.align	16
+_finttofloat
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,16
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	ebx,[ebp+20]
+	mov	esi,-2147483648
+	and	ebx,esi
+	shr	ebx,byte 31
+	mov	[ebp-4],ebx
+	mov	ebx,[ebp+20]
+	mov	esi,2139095040
+	and	ebx,esi
+	shr	ebx,byte 23
+	mov	[ebp-8],ebx
+	mov	ebx,[ebp+20]
+	mov	esi,8388607
+	and	ebx,esi
+	mov	[ebp-12],ebx
+	sub	esp,8
+	mov	[esp],-1082130432
+	mov	ebx,[ebp-4]
+	push	ebx
+	fild	[esp]
+	pop	ebx
+	push	ebx
+	fstp	[esp]
+	pop	ebx
+	mov	[esp+4],ebx
+	call	__bbFPow
+	mov	[ebp-16],eax
+	sub	esp,8
+	mov	[esp],1073741824
+	mov	esi,[ebp-8]
+	sub	esi,127
+	push	esi
+	fild	[esp]
+	pop	esi
+	push	esi
+	fstp	[esp]
+	pop	esi
+	mov	[esp+4],esi
+	mov	eax,ebx
+	call	__bbFPow
+	mov	ebx,eax
+	mov	eax,[ebp-16]
+	fmulp	st(1)
+	mov	ebx,[ebp-12]
+	push	ebx
+	fild	[esp]
+	pop	ebx
+	mov	esi,1258291200
+	push	esi
+	fld	[esp]
+	pop	esi
+	fdivp	st(1)
+	mov	esi,1065353216
+	push	esi
+	fld	[esp]
+	pop	esi
+	faddp	st(1)
+	fmulp	st(1)
+	jmp	_6_leave
+	mov	ebx,0
+	push	ebx
+	fld	[esp]
+	pop	ebx
+	jmp	_6_leave
+_6_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 4
+	.align	4
+__LIBS
+	.db	"",0
+	.align	4
+__DATA
+	.dd	0
+

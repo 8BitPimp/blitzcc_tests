@@ -1,0 +1,189 @@
+
+	.align	16
+__MAIN
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,4
+	mov	eax,__DATA
+	mov	[esp],eax
+	call	__bbRestore
+	sub	esp,4
+	mov	eax,__LIBS
+	mov	[esp],eax
+	call	__bbLoadLibs
+	call	_2_begin
+	jmp	_2_leave
+_2_begin
+	ret
+_2_leave
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 0
+	.align	16
+_fsavetga
+	push	ebx
+	push	esi
+	push	edi
+	push	ebp
+	mov	ebp,esp
+	sub	esp,28
+	mov	ebx,0
+	mov	[ebp-4],ebx
+	mov	[ebp-8],ebx
+	mov	[ebp-12],ebx
+	mov	[ebp-16],ebx
+	mov	[ebp-20],ebx
+	mov	[ebp-24],ebx
+	sub	esp,4
+	mov	eax,[ebp+24]
+	mov	[esp],eax
+	call	_ftexturewidth
+	mov	[ebp-8],eax
+	sub	esp,4
+	mov	eax,[ebp+24]
+	mov	[esp],eax
+	call	_ftextureheight
+	mov	[ebp-12],eax
+	sub	esp,8
+	lea	eax,[ebp+20]
+	mov	[esp],eax
+	call	__bbStrLoad
+	mov	[esp],eax
+	call	_fwritefile
+	mov	[ebp-4],eax
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],2
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	ebx,[ebp-8]
+	mov	[esp+4],ebx
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	ebx,[ebp-12]
+	mov	[esp+4],ebx
+	call	_fwriteshort
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],32
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	mov	[esp+4],8
+	call	_fwritebyte
+	sub	esp,8
+	mov	eax,[ebp+24]
+	mov	[esp],eax
+	mov	[esp+4],0
+	call	_ftexturebuffer
+	mov	[ebp-16],eax
+	mov	ebx,[ebp-12]
+	sub	ebx,1
+	mov	[ebp-24],ebx
+	jmp	_6
+_7
+	mov	[ebp-20],0
+	jmp	_8
+_9
+	sub	esp,20
+	mov	ebx,[ebp-24]
+	mov	[esp+4],ebx
+	mov	esi,[ebp-16]
+	mov	[esp+8],esi
+	mov	eax,[ebp-20]
+	mov	[esp],eax
+	call	_freadpixel
+	mov	[esp+4],eax
+	mov	ebx,[ebp-4]
+	mov	[esp],ebx
+	mov	eax,ebx
+	call	_fwriteint
+	mov	ebx,eax
+	add	[ebp-20],1
+_8
+	mov	ebx,[ebp-8]
+	sub	ebx,1
+	cmp	[ebp-20],ebx
+	jle	_9
+_5
+	add	[ebp-24],-1
+_6
+	cmp	[ebp-24],0
+	jge	_7
+_4
+	sub	esp,4
+	mov	eax,[ebp-4]
+	mov	[esp],eax
+	call	_fclosefile
+	mov	eax,0
+	jmp	_3_leave
+_3_leave
+	mov	[ebp-28],eax
+	sub	esp,4
+	mov	ebx,[ebp+20]
+	mov	[esp],ebx
+	mov	eax,ebx
+	call	__bbStrRelease
+	mov	ebx,eax
+	mov	eax,[ebp-28]
+	mov	esp,ebp
+	pop	ebp
+	pop	edi
+	pop	esi
+	pop	ebx
+	ret	word 8
+	.align	4
+__LIBS
+	.db	"",0
+	.align	4
+__DATA
+	.dd	0
+
